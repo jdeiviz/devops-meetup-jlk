@@ -1,0 +1,33 @@
+Master:
+  # Set RunAsUser to 1000 to let Jenkins run as non-root user 'jenkins' which exists in 'jenkins/jenkins' docker image.
+  # When setting RunAsUser to a different value than 0 also set FsGroup to the same value:
+  RunAsUser: 1000
+  FsGroup: 1000
+  # For minikube, set this to NodePort, elsewhere use LoadBalancer
+  # Use ClusterIP if your setup includes ingress controller
+  ServiceType: ClusterIP
+  # Used to create Ingress record (should used with ServiceType: ClusterIP)
+  HostName: jenkins.devops.com
+
+  # List of plugins to be install during Jenkins master start
+  InstallPlugins:
+    - blueocean:1.10.2
+    - kubernetes:1.13.0
+    - workflow-job:2.31
+    - workflow-aggregator:2.6
+    - credentials-binding:1.17
+    - git:3.9.1
+
+Persistence:
+  Enabled: false
+
+## Install Default RBAC roles and bindings
+rbac:
+  install: true
+  serviceAccountName: jenkins
+  # Role reference
+  roleRef: edit
+  # Role kind (Role or ClusterRole)
+  roleKind: ClusterRole
+  # Role binding kind (RoleBinding or ClusterRoleBinding)
+  roleBindingKind: RoleBinding

@@ -11,6 +11,17 @@ $ kubectl apply -f tiller-conf.yaml
 $ helm init --service-account tiller
 ```
 
+# Install Nginx Ingress Controller via Helm
+
+https://github.com/helm/charts/tree/master/stable/nginx-ingress
+
+```bash
+$ helm install stable/nginx-ingress \
+    --name ingress \
+    --namespace kube-system \
+    --set controller.service.type=NodePort
+```
+
 # Install Jenkins via Helm
 
 https://github.com/helm/charts/tree/master/stable/jenkins
@@ -35,4 +46,13 @@ Configure the Kubernetes plugin in Jenkins to use the following Service Account 
 
 # Create the Test pipeline (pipeline-test.yaml)
 
+# Install Docker Registry via Helm
 
+https://github.com/helm/charts/tree/master/stable/docker-registry
+
+```bash
+$ helm install stable/docker-registry \
+    --name docker-registry \
+    --namespace kube-system \
+    --set ingress.enabled=true --set ingress.hosts[0]=docker-registry.local 
+```

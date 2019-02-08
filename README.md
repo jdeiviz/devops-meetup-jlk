@@ -29,6 +29,7 @@ https://github.com/helm/charts/tree/master/stable/jenkins
 ```bash
 $ kubectl create namespace devops-meetup
 
+# If using this 
 $ helm inspect values stable/jenkins > helm/jenkins-values.yaml
 
 $ helm install stable/jenkins \
@@ -56,3 +57,29 @@ $ helm install stable/docker-registry \
     --namespace kube-system \
     --set ingress.enabled=true --set ingress.hosts[0]=docker-registry.local 
 ```
+
+
+# Include Croc-Hunter project
+
+First of all, create a new "Pipeline" Job with a GitHub repository (where the croc-hunter code is pushed). 
+
+Then, copy the "lachie83" Jenkinsfile in the Pipeline text box.
+
+It is important to install the "pipeline-github-lib:1.0" in order to be able to install Jenkins Libraries from GitHub.
+
+
+- ADD SCRIPT APPROVAL -> new groovy.json.JsonSlurperClassic y parseText java.lang.String
+new groovy.json.JsonSlurperClassic
+
+- GRANT "edit" ROLE TO JENKINS SA IN THE kube-system namespace with the "jenkins-sa-helm.yaml" file
+
+- Changed Jenkinsfile.json to docker own credentials and added new Username/Password credentials to talk to docker hub.
+
+
+# Configure KANIKO
+sudo docker login --username ctolon22 quay.io
+Password: <ponerla>
+
+Take config.json from /root/.docker/config.json
+
+kubectl create secret generic reg-cred --from-file=config.json -n devops-meetup

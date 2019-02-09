@@ -8,7 +8,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: privileged-psp
+  name: restricted-psp
 subjects:
 # For all service accounts in the kube-system namespace
 - apiGroup: rbac.authorization.k8s.io

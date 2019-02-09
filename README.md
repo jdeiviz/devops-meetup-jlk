@@ -84,3 +84,8 @@ Password: <ponerla>
 Take config.json from /root/.docker/config.json
 
 kubectl create secret generic reg-cred --from-file=config.json -n devops-meetup
+
+# Assign PodSecurityPolicy to show that you cannot mount docker.sock
+
+kubectl create serviceaccount -n psp-example fake-user
+kubectl create rolebinding -n psp-example fake-editor --clusterrole=edit --serviceaccount=psp-example:fake-user

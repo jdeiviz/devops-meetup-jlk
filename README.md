@@ -1,6 +1,9 @@
 # devops-meetup-jlk
 Jenkins Loves Kubernetes
 
+Kubernetes installed with `kubeadm init --config cluster-config.yaml`
+
+Create the "privileged" PSP configuration -> `kubectl create -f privileged-conf.yaml`
 
 # Installing HELM
 https://docs.helm.sh/using_helm/#installing-helm -> Scripted
@@ -8,7 +11,7 @@ https://docs.helm.sh/using_helm/#installing-helm -> Scripted
 ```bash
 $ kubectl apply -f tiller-conf.yaml
 
-$ helm init --service-account tiller
+$ helm init --service-account tiller --tiller-namespace devops-meetup
 ```
 
 # Install Nginx Ingress Controller via Helm
@@ -19,7 +22,8 @@ https://github.com/helm/charts/tree/master/stable/nginx-ingress
 $ helm install stable/nginx-ingress \
     --name ingress \
     --namespace kube-system \
-    --set controller.service.type=NodePort
+    --set controller.kind=DaemonSet \
+    --set controller.daemonset.useHostPort=true
 ```
 
 # Install Jenkins via Helm

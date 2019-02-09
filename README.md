@@ -55,7 +55,8 @@ https://github.com/helm/charts/tree/master/stable/docker-registry
 $ helm install stable/docker-registry \
     --name docker-registry \
     --namespace kube-system \
-    --set ingress.enabled=true --set ingress.hosts[0]=docker-registry.local 
+    --set ingress.enabled=true --set ingress.hosts[0]=docker-registry.local \
+    --set secrets.htpasswd=devops:$2y$05$CW3bI3CCAy.kJwdeeSNGZuDcwEJqTYlHM9wLmIYTsZXrjfGlxsJXi
 ```
 
 

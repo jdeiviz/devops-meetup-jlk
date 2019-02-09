@@ -8,6 +8,9 @@ Master:
   ServiceType: ClusterIP
   # Used to create Ingress record (should used with ServiceType: ClusterIP)
   HostName: jenkins.devops.com
+  ScriptApproval: 
+    - method groovy.json.JsonSlurperClassic parseText java.lang.String
+    - new groovy.json.JsonSlurperClassic
 
   # List of plugins to be install during Jenkins master start
   InstallPlugins:

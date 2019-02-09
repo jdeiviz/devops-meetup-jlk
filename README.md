@@ -91,5 +91,14 @@ kubectl create secret generic reg-cred --from-file=config.json -n devops-meetup
 
 # Assign PodSecurityPolicy to show that you cannot mount docker.sock
 
-kubectl create serviceaccount -n psp-example fake-user
-kubectl create rolebinding -n psp-example fake-editor --clusterrole=edit --serviceaccount=psp-example:fake-user
+1. Assign Privileged PodSecurityPolicy to Kube-System (`kubectl create -f psp-config/privileged-config.yaml`) and to "devops-meetup" namespace (`kubectl create -f psp-config/dm-privileged-rb.yaml`). This will allow you to mount docker socket.
+
+2. Run "master" pipeline in the croc-hunter project -> Using Docker Host Daemon
+
+3. Remove "privileged" PSP from devops-meetup -> `kubectl delete -f psp-config/dm-privileged-rb.yaml`
+
+4. Create the restricted PSP and dependencies (ClusterRole and Rolebinding in the devops-meetup namespace)-> `kubectl create -f psp-config/dm-psp-restricted.yaml` && `kubectl create -f psp-config/dm-psp-clusterrole.yaml` && `kubectl create -f psp-config/restricted-rb.yaml`
+
+5. Run again "master" pipeline -> It will fail because lack of permissions to mount docker host daemon. (See Jenkins logs).
+
+This force us to use other mechanism to build Docker image -> KANIKO

@@ -8,6 +8,6 @@ rules:
   resources:
   - podsecuritypolicies
   resourceNames:
-  - my-psp
+  - restricted
   verbs:
   - use

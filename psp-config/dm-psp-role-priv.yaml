@@ -1,12 +1,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: psp-rb-privileged
+  name: psp-rb-restricted
   namespace: devops-meetup
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: privileged-psp
+  name: restricted
 subjects:
 # Example: All service accounts in my-namespace
 - apiGroup: rbac.authorization.k8s.io

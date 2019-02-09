@@ -11,7 +11,7 @@ https://docs.helm.sh/using_helm/#installing-helm -> Scripted
 ```bash
 $ kubectl apply -f tiller-conf.yaml
 
-$ helm init --service-account tiller --tiller-namespace devops-meetup
+$ helm init --service-account tiller
 ```
 
 # Install Nginx Ingress Controller via Helm

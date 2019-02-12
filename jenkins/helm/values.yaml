@@ -6,8 +6,7 @@ Master:
   # For minikube, set this to NodePort, elsewhere use LoadBalancer
   # Use ClusterIP if your setup includes ingress controller
   ServiceType: ClusterIP
-  # Used to create Ingress record (should used with ServiceType: ClusterIP)
-  HostName: jenkins.devops.com
+  
   ScriptApproval: 
     - method groovy.json.JsonSlurperClassic parseText java.lang.String
     - new groovy.json.JsonSlurperClassic
@@ -22,6 +21,7 @@ Master:
     - git:3.9.1
     - pipeline-github-lib:1.0
     - ghprb:1.39.0
+    - kubernetes-credentials-provider:0.11
 
 Persistence:
   Enabled: false

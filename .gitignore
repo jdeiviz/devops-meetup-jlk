@@ -135,3 +135,7 @@ $RECYCLE.BIN/
 
 # Docker registry config
 .docker
+
+# Secrets
+secrets/*
+!secrets/.gitkeep

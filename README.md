@@ -94,14 +94,17 @@ $ helm install stable/docker-registry \
 https://github.com/helm/charts/tree/master/stable/jenkins
 
 ```bash
+$ sed -i "/TOKEN/<your github token>" jenkins/secrets/github-token.tpl > secrets/docker-registry-credentials.yaml
+$ kubectl create -f secrets/github-token.yaml
+
 $ helm install stable/jenkins \
     --name jenkins \
     --namespace jenkinsloveskubernetes \
-    --valuesjenkins/helm/values.yaml \
+    --values jenkins/helm/values.yaml \
     --set Master.HostName=jenkins.$(gcloud compute addresses describe ingress-ip --region europe-west2 --format="value(address)").sslip.io
 
 # Get your Jenkins password
-printf $(kubectl get secret --namespace jenkinsloveskubernetes jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
+$ printf $(kubectl get secret --namespace jenkinsloveskubernetes jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
 ```
 
 Configure the Kubernetes plugin in Jenkins to use the following Service Account name jenkins using the following steps:

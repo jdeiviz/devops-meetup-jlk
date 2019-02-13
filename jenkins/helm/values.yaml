@@ -22,6 +22,43 @@ Master:
     - pipeline-github-lib:1.0
     - ghprb:1.39.0
     - kubernetes-credentials-provider:0.11
+    - job-dsl:1.71
+    - configuration-as-code:1.5
+    - configuration-as-code-support:1.5
+
+  JCasC:
+    enabled: true
+    ConfigScripts:
+      welcome-message: |
+        jenkins:
+          systemMessage: |
+            Jenkins loves Kubernetes.
+            Can Kubernetes loves Jenkins?            
+            Step by Step, this Jenkins is 100% configured and managed 'as code'.
+
+            Config is now mostly handled by 'Jenkins Configuration as Code Plugin' (JCasC).
+
+      demo-pipeline: |
+        jobs:
+          - script: >
+              multibranchPipelineJob('croc-hunters') {
+                branchSources {
+                  github {
+                    scanCredentialsId('github')
+                    repoOwner('jdeiviz')
+                    repository('croc-hunter')
+                    buildOriginPRMerge(true)
+                  }
+                }
+                orphanedItemStrategy {
+                  discardOldItems {
+                    numToKeep(1)
+                  }
+                }
+                triggers {
+                  periodic(5)
+                }
+              } 
 
 Persistence:
   Enabled: false
@@ -36,3 +73,4 @@ rbac:
   roleKind: ClusterRole
   # Role binding kind (RoleBinding or ClusterRoleBinding)
   roleBindingKind: RoleBinding
+

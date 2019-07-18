@@ -1,34 +1,37 @@
-Master:
+master:
   # Set RunAsUser to 1000 to let Jenkins run as non-root user 'jenkins' which exists in 'jenkins/jenkins' docker image.
   # When setting RunAsUser to a different value than 0 also set FsGroup to the same value:
-  RunAsUser: 1000
-  FsGroup: 1000
+  runAsUser: 1000
+  fsGroup: 1000
   # For minikube, set this to NodePort, elsewhere use LoadBalancer
   # Use ClusterIP if your setup includes ingress controller
-  ServiceType: ClusterIP
+  serviceType: ClusterIP
+
+  ingress:
+    enabled: true
   
-  ScriptApproval: 
+  scriptApproval: 
     - method groovy.json.JsonSlurperClassic parseText java.lang.String
     - new groovy.json.JsonSlurperClassic
 
   # List of plugins to be install during Jenkins master start
-  InstallPlugins:
-    - blueocean:1.10.2
-    - kubernetes:1.13.0
-    - workflow-job:2.31
+  installPlugins:
+    - blueocean:1.17.0
+    - kubernetes:1.17.2
+    - workflow-job:2.33
     - workflow-aggregator:2.6
-    - credentials-binding:1.17
-    - git:3.9.1
+    - credentials-binding:1.19
+    - git:3.10.1
     - pipeline-github-lib:1.0
-    - ghprb:1.39.0
-    - kubernetes-credentials-provider:0.11
-    - job-dsl:1.71
-    - configuration-as-code:1.5
-    - configuration-as-code-support:1.5
+    - ghprb:1.42.0
+    - kubernetes-credentials-provider:0.12.1
+    - job-dsl:1.74
+    - configuration-as-code:1.23
+    - configuration-as-code-support:1.18
 
   JCasC:
     enabled: true
-    ConfigScripts:
+    configScripts:
       welcome-message: |
         jenkins:
           systemMessage: |
@@ -60,17 +63,13 @@ Master:
                 }
               } 
 
-Persistence:
-  Enabled: false
+persistence:
+  enabled: false
 
 ## Install Default RBAC roles and bindings
 rbac:
-  install: true
-  serviceAccountName: jenkins
-  # Role reference
-  roleRef: edit
-  # Role kind (Role or ClusterRole)
-  roleKind: ClusterRole
-  # Role binding kind (RoleBinding or ClusterRoleBinding)
-  roleBindingKind: RoleBinding
-
+  create: true
+  
+serviceAccount:
+  create: true
+  name: jenkins
